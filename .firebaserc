@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "leafautospublic"
+  },
+  "targets": {
+    "leafautos": {
+      "hosting": {
+        "leafautospublic": [
+          "leafautospublic"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -11,8 +11,8 @@ const firebaseConfig = {
   projectId: "leafautos",
   storageBucket: "leafautos.appspot.com",
   messagingSenderId: "153004085578",
-  appId: "1:153004085578:web:1f3fa424fac5d3165f71b3",
-  measurementId: "G-WTM3GM0W8F",
+  appId: "1:153004085578:web:cf3e6ff7efdda7905f71b3",
+  measurementId: "G-KPSQQLTRT8",
 };
 
 const app = initializeApp(firebaseConfig);
