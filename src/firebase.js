@@ -1,0 +1,27 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+// Follow this pattern to import other Firebase services
+// import { } from 'firebase/<service>';
+
+// TODO: Replace the following with your app's Firebase project configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCuiRgcJIxobXLwVl3WMfKYyf6HJqp4zdk",
+  authDomain: "leafautos.firebaseapp.com",
+  databaseURL: "https://leafautos-default-rtdb.firebaseio.com",
+  projectId: "leafautos",
+  storageBucket: "leafautos.appspot.com",
+  messagingSenderId: "153004085578",
+  appId: "1:153004085578:web:1f3fa424fac5d3165f71b3",
+  measurementId: "G-WTM3GM0W8F",
+};
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+
+// Get a list of cities from your database
+export async function getVehicles(db) {
+  const vehiclesCol = collection(db, "vehicles");
+  const vehicleSnapshot = await getDocs(vehiclesCol);
+  const vehicleList = vehicleSnapshot.docs.map((doc) => doc.data());
+  return vehicleList;
+}
