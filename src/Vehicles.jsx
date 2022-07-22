@@ -6,7 +6,7 @@ import { VehicleCard } from "./VehicleCard";
 const cars = [
   {
     interiorType: "",
-    make: "CHRYSLER",
+    make: "Chrysler",
     exteriorColor: "Black",
     doors: "2",
     fuelType: "Gasoline",
