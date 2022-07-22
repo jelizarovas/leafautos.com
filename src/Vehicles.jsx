@@ -32,14 +32,17 @@ const cars = [
     sellingPrice: "8500",
     discountPrice: "6999",
     id: "cl4hh8f4v0005356ecfys5v4k",
-    mainImgId: "cl4hh8f4v0005356ecfys5v4k",
+    mainImgId: "cl5vwlefq0000366pgzx91ar0",
     images: {
       cl5vwlefq0000366pgzx91ar0: {
         storagePath:
           "photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/IMG_20220309_134215.jpg",
         url: "https://storage.googleapis.com/leafautosphotos/photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/IMG_20220309_134215.jpg",
         thumbs: [
-          "https://storage.googleapis.com/leafautosphotos/photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/thumb_001_IMG_20220309_134215.jpg",
+          {
+            storagePath: "",
+            url: "https://storage.googleapis.com/leafautosphotos/photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/thumb_001_IMG_20220309_134215.jpg",
+          },
         ],
       },
     },

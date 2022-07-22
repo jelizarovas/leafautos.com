@@ -19,3 +19,45 @@ code {
 .strikediag {
   background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
 }
+
+* {
+  --main-color: #008e76;
+  --secondary-color: white;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--main-color) var(--secondary-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 20px;
+  border: 3px solid var(--secondary-color);
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: #007c64;
+}
+
+::selection {
+  color: white;
+  background: #007c64;
+}
+
+.bg-main {
+  background-color: var(--main-color);
+}
+
+.price::before {
+  content: "$ ";
+}
