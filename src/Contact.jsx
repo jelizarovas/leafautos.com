@@ -12,8 +12,8 @@ export const Contact = () => {
         >
           <MdPhone className="text-3xl mx-2 " />
           <div className="flex flex-wrap flex-col md:flex-row space-x-2">
-            <span>(206) 602-4363 </span>
-            <span> Appointment Only</span>
+            <span className=" whitespace-nowrap">(206) 602-4363 </span>
+            <span className="hidden md:flex"> Appointment Only</span>
           </div>
         </a>
         <a
@@ -25,7 +25,8 @@ export const Contact = () => {
         >
           <MdLocationPin className="text-3xl mx-2" />
           <div className="flex flex-wrap flex-col md:flex-row space-x-2">
-            <span>2501 B Harbor Ave SW, </span> <span> Seattle, WA 98126</span>
+            <span className="hidden sm:flex">2501 B Harbor Ave SW, </span>{" "}
+            <span className="hidden md:flex"> Seattle, WA 98126</span>
           </div>
         </a>
       </div>

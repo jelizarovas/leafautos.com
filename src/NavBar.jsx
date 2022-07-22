@@ -8,7 +8,7 @@ export const NavBar = () => {
       <div className="container flex items-center space-x-4 mx-auto justify-around">
         <div to="/vehicles" className="px-4 py-2 flex items-center space-x-4">
           <img src="/img/logo.png" alt="logo" className="max-h-5" />
-          <span className="hidden sm:flex uppercase text-sm">Leaf Autos</span>
+          <span className=" uppercase text-sm">Leaf Autos</span>
         </div>
         <div className="border hidden  border-white w-96 h-7 my-1 rounded  lg:hidden items-center justify-around space-x-4">
           <input

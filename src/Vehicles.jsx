@@ -1,6 +1,6 @@
 import React from "react";
-// import { getDocs, collection, doc } from "firebase/firestore";
-// import { db } from "./firebase";
+import { getDocs, collection, doc } from "firebase/firestore";
+import { db } from "./firebase";
 import { VehicleCard } from "./VehicleCard";
 
 const cars = [
@@ -48,21 +48,24 @@ const cars = [
     },
   },
 ];
+
+const vehiclesCollectionRef = collection(db, "vehicles");
+
 export const Vehicles = () => {
-  const [vehicleList /*, setVehicleList*/] = React.useState([...cars]);
-  //   const vehiclesCollectionRef = collection(db, "vehicles");
+  const [vehicleList, setVehicleList] = React.useState([...cars]);
 
-  //   React.useEffect(() => {
-  //     const getVehicles = async () => {
-  //       const data = await getDocs(vehiclesCollectionRef);
-  //       setVehicleList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //     };
+  React.useEffect(() => {
+    const getVehicles = async () => {
+      const data = await getDocs(vehiclesCollectionRef);
+      console.log(`Read from database (${data.docs.length} reads)`);
+      setVehicleList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
 
-  //     getVehicles();
-  //   }, []);
+    getVehicles();
+  }, []);
 
   return (
-    <ul className="text-left">
+    <ul className="text-left px-2 py-6 flex flex-wrap justify-center container items-center">
       {vehicleList && vehicleList.length > 0 ? (
         vehicleList.map((v, i) => <VehicleCard key={v.id} vehicle={v} />)
       ) : (

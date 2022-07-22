@@ -8,20 +8,20 @@ import React from "react";
 //
 
 function parseMileage(mileage) {
-  return Number(mileage) / 1000 + "K miles";
+  return Math.floor(Number(mileage.replace(/\D/g, "")) / 1000) + "K miles";
 }
 
 export const VehicleCard = ({ vehicle: v }) => {
   return (
     <li
-      className={` py-2 relative bg-no-repeat bg-cover w-72 h-64 m-1 rounded-xl overflow-hidden bg-center shadow-md border border-gray-600 `}
+      className={` py-2 relative bg-no-repeat bg-contain w-full sm:w-72 h-64 m-1 rounded-xl overflow-hidden bg-center shadow-md border border-gray-600 `}
       style={{
         backgroundImage: `url(${
-          v?.images[v.mainImgId]?.thumbs[0]?.url || "/img/car.png"
+          v?.images?.[v?.mainImgId]?.thumbs?.[0]?.url || "/img/car.png"
         })`,
       }}
     >
-      <span className="text-center font-bold absolute bottom-0 px-2 py-2 bg-opacity-80 bg-white w-full border-t border-gray-600">
+      <span className="text-center uppercase font-bold absolute bottom-0 px-2 py-2 bg-opacity-80 hover:bg-opacity-100 transition-all bg-white w-full border-t border-gray-600">
         {v?.year} {v?.make} {v?.model}
       </span>
       {/* <a href={imageSrc} target="_blank" rel="noopener noreferrer"> */}
