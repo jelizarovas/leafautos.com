@@ -1,7 +1,7 @@
 import React from "react";
-import { getDocs, collection, doc } from "firebase/firestore";
-import { db } from "./firebase";
-import { Vehicle } from "./Vehicle";
+// import { getDocs, collection, doc } from "firebase/firestore";
+// import { db } from "./firebase";
+import { VehicleCard } from "./VehicleCard";
 
 const cars = [
   {
@@ -49,7 +49,7 @@ const cars = [
   },
 ];
 export const Vehicles = () => {
-  const [vehicleList, setVehicleList] = React.useState([...cars]);
+  const [vehicleList /*, setVehicleList*/] = React.useState([...cars]);
   //   const vehiclesCollectionRef = collection(db, "vehicles");
 
   //   React.useEffect(() => {
@@ -64,7 +64,7 @@ export const Vehicles = () => {
   return (
     <ul className="text-left">
       {vehicleList && vehicleList.length > 0 ? (
-        vehicleList.map((v, i) => <Vehicle key={v.id} vehicle={v} />)
+        vehicleList.map((v, i) => <VehicleCard key={v.id} vehicle={v} />)
       ) : (
         <div>No Cars Found</div>
       )}

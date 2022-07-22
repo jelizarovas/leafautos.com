@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
 
 export const NavBar = () => {
@@ -10,7 +10,7 @@ export const NavBar = () => {
           <img src="/img/logo.png" alt="logo" className="max-h-5" />
           <span className="hidden sm:flex uppercase text-sm">Leaf Autos</span>
         </div>
-        <div className="border hidden  border-white w-96 h-7 my-1 rounded lg:flex lg:hidden items-center justify-around space-x-4">
+        <div className="border hidden  border-white w-96 h-7 my-1 rounded  lg:hidden items-center justify-around space-x-4">
           <input
             type="text"
             className="bg-transparent flex-grow outline-none px-4"
@@ -40,12 +40,12 @@ export const NavBar = () => {
   );
 };
 
-const NavLink = ({ label, to, ...props }) => (
-  <Link
-    className="px-2 py-1 hover:bg-white hover:bg-opacity-20 hover:rounded"
-    to={to}
-    {...props}
-  >
-    {label}
-  </Link>
-);
+// const NavLink = ({ label, to, ...props }) => (
+//   <Link
+//     className="px-2 py-1 hover:bg-white hover:bg-opacity-20 hover:rounded"
+//     to={to}
+//     {...props}
+//   >
+//     {label}
+//   </Link>
+// );
