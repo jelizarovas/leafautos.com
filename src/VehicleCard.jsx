@@ -1,12 +1,4 @@
 import React from "react";
-
-// const imageSrc =
-//   "https://storage.googleapis.com/leafautosphotos/photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/IMG_20220309_134215.jpg";
-// const thumbSrc =
-//   "https://storage.googleapis.com/leafautosphotos/photos/cl4hh8f4v0005356ecfys5v4k/cl5vwlefq0000366pgzx91ar0/thumb_001_IMG_20220309_134215.jpg";
-
-//
-
 function parseMileage(mileage) {
   return Math.floor(Number(mileage.replace(/\D/g, "")) / 1000) + "K miles";
 }
@@ -14,40 +6,34 @@ function parseMileage(mileage) {
 export const VehicleCard = ({ vehicle: v }) => {
   return (
     <li
-      className={` py-2 relative bg-no-repeat bg-contain w-full sm:w-72 h-64 m-1 rounded-xl overflow-hidden bg-center shadow-md border border-gray-600 `}
+      className={`text-sm  relative bg-no-repeat bg-cover w-full sm:w-72 h-64    bg-center   `}
       style={{
         backgroundImage: `url(${
-          v?.images?.[v?.mainImgId]?.thumbs?.[0]?.url || "/img/car.png"
+          v?.images?.[v?.mainImgId]?.thumbs?.[1]?.url ||
+          v?.images?.[v?.mainImgId]?.thumbs?.[0]?.url ||
+          "/img/car.png"
         })`,
       }}
     >
-      <span className="text-center uppercase font-bold absolute bottom-0 px-2 py-2 bg-opacity-80 hover:bg-opacity-100 transition-all bg-white w-full border-t border-gray-600">
-        {v?.year} {v?.make} {v?.model}
-      </span>
-      {/* <a href={imageSrc} target="_blank" rel="noopener noreferrer"> */}
-      {/* <img src={thumbSrc} alt="v" className="w-64 rounded" /> */}
-      {/* </a> */}
-      {v?.mileage && (
-        <span className="text-base px-2 border border-blue-900 bg-blue-100 py-1 text-blue-900 bg-opacity-90 absolute left-2 top-2 rounded">
-          {parseMileage(v.mileage)}
+      <div className="flex flex-wrap justify-between absolute bottom-0 px-2 py-2 bg-white w-full">
+        <span className="uppercase font-bold whitespace-nowrap">
+          {v?.year} {v?.make} {v?.model}
         </span>
-      )}
+
+        {v?.mileage && (
+          <span className="  whitespace-nowrap">{parseMileage(v.mileage)}</span>
+        )}
+      </div>
       {v?.sellingPrice && (
-        <div className="pricing absolute flex items-center right-2 top-2 px-1 rounded-md py-1 bg-yellow-300">
-          <span className="px-2 text-2xl text-yellow-900">
+        <div className="pricing absolute flex items-center right-2 top-2 px-2  py-1 bg-black text-white">
+          <span className="px-2 text-base ">
             ${v?.discountPrice || v.sellingPrice}
           </span>
           {v?.discountPrice && (
-            <span className="strikediag text-yellow-600">
-              ${v.sellingPrice}
-            </span>
+            <span className="strikediag ">${v.sellingPrice}</span>
           )}
         </div>
       )}
-      {/* <details>
-        <summary>Details</summary>
-        <pre className="text-xs">{JSON.stringify(v, null, 2)}</pre>
-      </details> */}
     </li>
   );
 };

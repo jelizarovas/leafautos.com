@@ -4,10 +4,15 @@ import { MdSearch } from "react-icons/md";
 
 export const NavBar = () => {
   return (
-    <div className="bg-main text-white py-1">
+    <div className="bg-main text-white py-1 select-none">
       <div className="container flex items-center space-x-4 mx-auto justify-around">
-        <div to="/vehicles" className="px-4 py-2 flex items-center space-x-4">
-          <img src="/img/logo.png" alt="logo" className="max-h-5" />
+        <div className="px-4 py-2 flex items-center space-x-4">
+          <img
+            src="/img/logo.png"
+            alt="logo"
+            className="max-h-5"
+            draggable={false}
+          />
           <span className=" uppercase text-sm">Leaf Autos</span>
         </div>
         <div className="border hidden  border-white w-96 h-7 my-1 rounded  lg:hidden items-center justify-around space-x-4">
@@ -25,15 +30,6 @@ export const NavBar = () => {
         <nav className="flex space-x-4">
           {/* <NavLink to="/add" label="➕ Car" />
           <NavLink to="/vehicles" label="📂 All Cars" /> */}
-          <a
-            href="https://github.com/jelizarovas/leafautos.com/issues"
-            className="px-2 py-1 hover:bg-white hover:bg-opacity-20 hover:rounded"
-            target="_blank"
-            label="⚠️ Issue"
-            rel="noreferrer"
-          >
-            ⚠️ Report Issues
-          </a>
         </nav>
       </div>
     </div>

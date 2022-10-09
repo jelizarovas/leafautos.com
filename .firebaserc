@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "leafautospublic"
+    "default": "leafautospublic",
+    "public": "leafautos"
   },
   "targets": {
     "leafautos": {

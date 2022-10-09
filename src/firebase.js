@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 // Follow this pattern to import other Firebase services
 // import { } from 'firebase/<service>';
 
@@ -19,9 +25,13 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 // Get a list of cities from your database
-export async function getVehicles(db) {
+export async function getVehicles() {
   const vehiclesCol = collection(db, "vehicles");
-  const vehicleSnapshot = await getDocs(vehiclesCol);
-  const vehicleList = vehicleSnapshot.docs.map((doc) => doc.data());
+  const q = query(vehiclesCol, where("isPublic", "==", true));
+  const vehicleSnapshot = await getDocs(q);
+  const vehicleList = vehicleSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
   return vehicleList;
 }

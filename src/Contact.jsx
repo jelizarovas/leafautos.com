@@ -25,6 +25,7 @@ export const Contact = () => {
         >
           <MdLocationPin className="text-3xl mx-2" />
           <div className="flex flex-wrap flex-col md:flex-row space-x-2">
+            <span className="flex sm:hidden">Visit </span>
             <span className="hidden sm:flex">2501 B Harbor Ave SW, </span>{" "}
             <span className="hidden md:flex"> Seattle, WA 98126</span>
           </div>
