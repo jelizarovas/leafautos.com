@@ -3,7 +3,7 @@ function parseMileage(mileage) {
   return Math.floor(Number(mileage.replace(/\D/g, "")) / 1000) + "K miles";
 }
 
-export const VehicleCard = ({ vehicle: v }) => {
+export const VehicleCard = ({ vehicle: v, setVehicleId }) => {
   return (
     <li
       className={`text-sm  relative bg-no-repeat bg-cover w-full sm:w-72 h-64    bg-center   `}
@@ -14,6 +14,7 @@ export const VehicleCard = ({ vehicle: v }) => {
           "/img/car.png"
         })`,
       }}
+      onClick={() => setVehicleId(v.id)}
     >
       <div className="flex flex-wrap justify-between absolute bottom-0 px-2 py-2 bg-white w-full">
         <span className="uppercase font-bold whitespace-nowrap">

@@ -5,7 +5,7 @@ import { VehicleCard } from "./VehicleCard";
 
 const vehiclesCollectionRef = collection(db, "vehicles");
 
-export const Vehicles = (props) => {
+export const Vehicles = ({ setVehicleId, ...props }) => {
   const [vehicleList, setVehicleList] = React.useState([]);
 
   React.useEffect(() => {
@@ -26,7 +26,7 @@ export const Vehicles = (props) => {
       </h1>
       <ul className="text-left  mx-auto px-2 py-6 flex flex-wrap space-y-1 md:space-y-0 md:space-x-2 justify-center container items-center">
         {vehicleList && vehicleList.length > 0 ? (
-          vehicleList.map((v, i) => <VehicleCard key={v.id} vehicle={v} />)
+          vehicleList.map((v, i) => <VehicleCard key={v.id} vehicle={v} setVehicleId={setVehicleId} />)
         ) : (
           <div>No Cars Found</div>
         )}
