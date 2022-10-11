@@ -1,13 +1,16 @@
 import React from "react";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
+import { useParams } from "react-router-dom";
 
-export const VehiclePage = ({ vehicleId }) => {
+export const VehiclePage = (props) => {
   const [vehicle, setVehicle] = React.useState(null);
   const [activeImageId, setActiveImageId] = React.useState(null);
 
+  let { vehicleId } = useParams();
+
   React.useEffect(() => {
-    const getVehicles = async () => {
+    const getVehicle = async () => {
       const data = await getDoc(doc(db, "vehicles", vehicleId));
       const v = data.data();
       setVehicle({ ...v, id: data.id });
@@ -16,12 +19,12 @@ export const VehiclePage = ({ vehicleId }) => {
 
     if (vehicleId) {
       console.log("Getting vehicle: ", vehicleId);
-      getVehicles();
+      getVehicle();
     }
   }, [vehicleId]);
 
   return (
-    <div className="text-left container mx-auto fle flex-col md:flex-row">
+    <div className="text-left container mx-auto flex flex-col md:flex-row pb-10">
       <List name="Photos">
         <div
           style={{
@@ -54,7 +57,7 @@ export const VehiclePage = ({ vehicleId }) => {
             ))}
         </div>
       </List>
-      <div className="flex flex-col md:flex-row justify-center">
+      <div className="flex flex-col md:flex-row lg:flex-col justify-center">
         <List name={`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}>
           <ListItem label="Mileage" value={vehicle?.mileage} />
           <ListItem label="Series" value={vehicle?.series} />
@@ -104,7 +107,7 @@ const ListItem = ({ label, Icon, value, ...props }) => {
 };
 
 const List = ({ name, ...props }) => (
-  <div className="mx-4 my-2">
+  <div className="mx-4 my-2 ">
     <h3 className="uppercase font-bold text-xs mt-4 mb-2 ">{name}</h3>
     <ul>{props.children}</ul>
   </div>

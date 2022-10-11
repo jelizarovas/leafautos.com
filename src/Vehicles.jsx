@@ -20,7 +20,7 @@ export const Vehicles = ({ setVehicleId, ...props }) => {
   }, []);
 
   return (
-    <div {...props}>
+    <div className="flex-grow" {...props}>
       <h1 className="text-center mt-6 mb-2 text-xl container mx-auto ">
         {vehicleList.length} Vehicles for sale
       </h1>

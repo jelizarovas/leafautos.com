@@ -1,5 +1,6 @@
 import "./App.css";
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 import { Contact } from "./Contact";
 import { Footer } from "./Footer";
@@ -18,8 +19,9 @@ function App() {
     <div className="App flex flex-col  min-h-screen">
       <NavBar />
       <Contact />
-      <Vehicles className="flex-grow" setVehicleId={handleVehicleId} />
-      {vehicleId && <VehiclePage vehicleId={vehicleId} />}
+      <Outlet />
+      {/* <Vehicles className="flex-grow" setVehicleId={handleVehicleId} />
+      {vehicleId && <VehiclePage vehicleId={vehicleId} />} */}
       <Footer />
     </div>
   );

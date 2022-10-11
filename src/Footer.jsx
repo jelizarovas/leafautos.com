@@ -9,22 +9,22 @@ const SocialButton = (props) => (
     rel="noreferrer"
   >
     {props?.Icon ? <props.Icon /> : props.children}
-    <span class="sr-only">{props.text}</span>
+    <span className="sr-only">{props.text}</span>
   </a>
 );
 
 export const Footer = () => {
   return (
-    <footer class="p-4 bg-main sm:p-6 text-white">
-      <div class="container w-full  mx-auto flex flex-col-reverse  md:flex-row justify-between">
-        <span class="text-sm  sm:text-center py-2 md:whitespace-nowrap  ">
+    <footer className="p-4 bg-main sm:p-6 text-white">
+      <div className="container w-full  mx-auto flex flex-col-reverse  md:flex-row justify-between">
+        <span className="text-sm  sm:text-center py-2 md:whitespace-nowrap  ">
           © 2022{" "}
-          <a href="https://leafautos.com/" class="hover:underline">
+          <a href="https://leafautos.com/" className="hover:underline">
             Leaf Autos LLC
           </a>
           . All Rights Reserved.
         </span>
-        <div class=" items-center  flex mt-4 space-x-6 justify-center  sm:mt-0">
+        <div className=" items-center  flex mt-4 space-x-6 justify-center  sm:mt-0">
           <SocialButton
             text="Facebook page"
             url="https://www.facebook.com/leafautos/"

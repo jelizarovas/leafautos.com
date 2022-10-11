@@ -1,12 +1,13 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export const NavBar = () => {
   return (
     <div className="bg-main text-white py-1 select-none">
-      <div className="container flex items-center space-x-4 mx-auto justify-around">
-        <div className="px-4 py-2 flex items-center space-x-4">
+      <div className="container flex items-center space-x-4 mx-auto justify-between">
+        <Link to="/" className="px-4 py-2 flex items-center space-x-4">
           <img
             src="/img/logo.png"
             alt="logo"
@@ -14,7 +15,7 @@ export const NavBar = () => {
             draggable={false}
           />
           <span className=" uppercase text-sm">Leaf Autos</span>
-        </div>
+        </Link>
         <div className="border hidden  border-white w-96 h-7 my-1 rounded  lg:hidden items-center justify-around space-x-4">
           <input
             type="text"
@@ -28,20 +29,19 @@ export const NavBar = () => {
           </span>
         </div>
         <nav className="flex space-x-4">
-          {/* <NavLink to="/add" label="➕ Car" />
-          <NavLink to="/vehicles" label="📂 All Cars" /> */}
+          <NavLink to="/" label="📂 All Cars" />
         </nav>
       </div>
     </div>
   );
 };
 
-// const NavLink = ({ label, to, ...props }) => (
-//   <Link
-//     className="px-2 py-1 hover:bg-white hover:bg-opacity-20 hover:rounded"
-//     to={to}
-//     {...props}
-//   >
-//     {label}
-//   </Link>
-// );
+const NavLink = ({ label, to, ...props }) => (
+  <Link
+    className="px-2 py-1 hover:bg-white hover:bg-opacity-20 hover:rounded"
+    to={to}
+    {...props}
+  >
+    {label}
+  </Link>
+);

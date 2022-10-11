@@ -1,12 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 function parseMileage(mileage) {
   return Math.floor(Number(mileage.replace(/\D/g, "")) / 1000) + "K miles";
 }
 
 export const VehicleCard = ({ vehicle: v, setVehicleId }) => {
   return (
-    <li
-      className={`text-sm  relative bg-no-repeat bg-cover w-full sm:w-72 h-64    bg-center   `}
+    <Link
+      to={`vehicle/${v.id}`}
+      className={`text-sm  relative bg-no-repeat bg-cover w-full sm:w-72 h-64  m-2  bg-center  group `}
       style={{
         backgroundImage: `url(${
           v?.images?.[v?.mainImgId]?.thumbs?.[1]?.url ||
@@ -14,9 +17,8 @@ export const VehicleCard = ({ vehicle: v, setVehicleId }) => {
           "/img/car.png"
         })`,
       }}
-      onClick={() => setVehicleId(v.id)}
     >
-      <div className="flex flex-wrap justify-between absolute bottom-0 px-2 py-2 bg-white w-full">
+      <div className="group-hover:bg-indigo-50 flex flex-wrap justify-between absolute bottom-0 px-2 py-2 bg-white w-full">
         <span className="uppercase font-bold whitespace-nowrap">
           {v?.year} {v?.make} {v?.model}
         </span>
@@ -35,6 +37,6 @@ export const VehicleCard = ({ vehicle: v, setVehicleId }) => {
           )}
         </div>
       )}
-    </li>
+    </Link>
   );
 };
