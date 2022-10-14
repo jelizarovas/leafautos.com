@@ -7,8 +7,10 @@ export const Contact = () => {
       <div className="w-full h-full bg-white bg-opacity-20 py-2 flex items-center justify-around md:justify-center space-x-10">
         <a
           href="tel:2066024363"
+          target="_blank"
           aria-label="Call to Set Appointment"
           className="flex space-x-2 items-center py-6 px-4 rounded-xl hover:bg-black hover:bg-opacity-20 transition-all"
+          rel="noreferrer"
         >
           <MdPhone className="text-3xl mx-2 " />
           <div className="flex flex-wrap flex-col md:flex-row space-x-2">
