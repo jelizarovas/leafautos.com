@@ -3,12 +3,13 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
 import { Link, useParams } from "react-router-dom";
 import { Loading } from "./Loading";
-import { MdArrowBack } from "react-icons/md";
-
+import { MdArrowBack, MdArrowForward, MdFullscreen } from "react-icons/md";
+import ImageGallery from "react-image-gallery";
 export const VehiclePage = (props) => {
   const [vehicle, setVehicle] = React.useState(null);
   const [activeImageId, setActiveImageId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const refImg = React.useRef(null);
 
   let { vehicleId } = useParams();
 
@@ -17,7 +18,6 @@ export const VehiclePage = (props) => {
 
     const getVehicle = async () => {
       setLoading(true);
-
       const data = await getDoc(doc(db, "vehicles", vehicleId));
       if (data) {
         const v = data.data();
@@ -37,16 +37,11 @@ export const VehiclePage = (props) => {
     };
   }, [vehicleId]);
 
-  if (loading)
+  if (loading || !vehicle)
     return (
       <div className="flex-grow flex items-center  flex-col justify-center ">
         <Loading color="black" />
       </div>
-    );
-
-  if (!vehicle)
-    return (
-      <div className="container mx-auto flex py-10 flex-grow">Loading...</div>
     );
 
   return (
@@ -62,7 +57,41 @@ export const VehiclePage = (props) => {
       </div>
       <div className="text-left  flex flex-col md:flex-row pb-10 ">
         <List name="Photos">
-          <div
+          <Photos
+            refImg={refImg}
+            images={
+              vehicle?.imgOrder &&
+              vehicle.imgOrder.map((imageId) => ({
+                original:
+                  vehicle?.images[imageId]?.thumbs?.[2]?.url ||
+                  vehicle?.images[imageId]?.thumbs?.[1]?.url ||
+                  vehicle?.images[imageId]?.thumbs?.[0]?.url,
+                thumbnail: vehicle?.images[imageId]?.thumbs?.[0]?.url,
+              }))
+            }
+          />
+          <div className="flex flex-wrap md:w-96 ">
+            {vehicle?.imgOrder &&
+              vehicle.imgOrder.map((imageId, index) => {
+                if (!vehicle.images[imageId]?.isPublic) return null;
+                return (
+                  <div
+                    key={imageId}
+                    onClick={() => refImg.current.slideToIndex(index)}
+                    style={{
+                      backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                    alt=""
+                    className="m-0.5 w-16 h-16 hover:border-2 border-yellow-500 "
+                  ></div>
+                );
+              })}
+          </div>
+
+          {/* <div
             style={{
               backgroundImage: `url(${
                 vehicle?.images[activeImageId]?.thumbs?.[1]?.url ||
@@ -82,7 +111,15 @@ export const VehiclePage = (props) => {
                 return (
                   <div
                     key={imageId}
-                    onClick={() => setActiveImageId(imageId)}
+                    onClick={() => {
+                      const url =
+                        vehicle.images[imageId]?.thumbs?.[1]?.url ||
+                        vehicle.images[imageId]?.thumbs?.[0]?.url;
+                      var img = new Image();
+                      img.src = url;
+                      console.log(url);
+                      img.onload = setActiveImageId(imageId);
+                    }}
                     style={{
                       backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
                       backgroundSize: "cover",
@@ -94,7 +131,7 @@ export const VehiclePage = (props) => {
                   ></div>
                 );
               })}
-          </div>
+          </div> */}
         </List>
         <div className="flex flex-col md:flex-row lg:flex-col justify-start">
           <List name="Details">
@@ -166,6 +203,41 @@ const List = ({ name, ...props }) => (
     <ul>{props.children}</ul>
   </div>
 );
+
+const Photos = ({ images, refImg }) => {
+  return (
+    <div className="w-full md:w-96">
+      <ImageGallery
+        ref={refImg}
+        showPlayButton={false}
+        showBullets={false}
+        items={images}
+        showThumbnails={false}
+        renderLeftNav={(onClick, disabled) => (
+          <MdArrowBack
+            className="absolute top-1/2 z-10 left-1 p-1 text-2xl text-white bg-black bg-opacity-75 cursor-pointer hover:bg-opacity-95 transition-all hover:p-0.5"
+            onClick={onClick}
+            disabled={disabled}
+          />
+        )}
+        renderRightNav={(onClick, disabled) => (
+          <MdArrowForward
+            className="text-2xl  p-1 absolute top-1/2 right-1 z-10 text-white bg-black bg-opacity-75 cursor-pointer hover:bg-opacity-95 transition-all hover:p-0.5"
+            onClick={onClick}
+            disabled={disabled}
+          />
+        )}
+        renderFullscreenButton={(onClick, isFullscreen) => (
+          <MdFullscreen
+            className="text-2xl  p-1 absolute  right-1 bottom-1 z-10 text-white bg-black bg-opacity-75 cursor-pointer hover:bg-opacity-95 transition-all hover:p-0.5"
+            onClick={onClick}
+            isFullscreen={isFullscreen}
+          />
+        )}
+      />
+    </div>
+  );
+};
 
 // const sample = {
 //   wheels: "",
