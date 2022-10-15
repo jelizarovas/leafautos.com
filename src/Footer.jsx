@@ -1,15 +1,17 @@
 import React from "react";
 import { BsFacebook, BsGithub, BsGoogle, BsYoutube } from "react-icons/bs";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const SocialButton = (props) => (
   <a
     href={props.url}
-    className=" p-2 hover:bg-white hover:bg-opacity-20 transition-opacity rounded-full"
+    className="tooltip p-2 hover:bg-white hover:bg-opacity-20 transition-opacity rounded-full"
     target="_BLANK"
     rel="noreferrer"
   >
     {props?.Icon ? <props.Icon /> : props.children}
     <span className="sr-only">{props.text}</span>
+    <span className="tooltiptext">{props.text}</span>
   </a>
 );
 
@@ -26,24 +28,29 @@ export const Footer = () => {
         </span>
         <div className=" items-center  flex mt-4 space-x-6 justify-center  sm:mt-0">
           <SocialButton
-            text="Facebook page"
+            text="Facebook"
             url="https://www.facebook.com/leafautos/"
             Icon={BsFacebook}
           />
           <SocialButton
-            text="Google Business page"
+            text="Google Business"
             url="https://g.page/leafautos"
             Icon={BsGoogle}
           />
           <SocialButton
-            text="Youtube page"
+            text="Youtube"
             url="https://www.youtube.com/channel/UC0OPm7G6-AC1Vqony6ypPPg"
             Icon={BsYoutube}
           />
           <SocialButton
-            text="Github Issues Page"
+            text="Github Issues"
             url="https://github.com/jelizarovas/leafautos.com/issues"
             Icon={BsGithub}
+          />
+          <SocialButton
+            text="Admin Panel"
+            url="https://admin.leafautos.com"
+            Icon={MdAdminPanelSettings}
           />
         </div>
       </div>

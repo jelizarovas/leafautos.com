@@ -1,108 +1,142 @@
 import React from "react";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Loading } from "./Loading";
+import { MdArrowBack } from "react-icons/md";
 
 export const VehiclePage = (props) => {
   const [vehicle, setVehicle] = React.useState(null);
   const [activeImageId, setActiveImageId] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   let { vehicleId } = useParams();
 
   React.useEffect(() => {
+    let isApiSubscribed = true;
+
     const getVehicle = async () => {
+      setLoading(true);
+
       const data = await getDoc(doc(db, "vehicles", vehicleId));
-      const v = data.data();
-      setVehicle({ ...v, id: data.id });
-      if (v?.imgOrder) setActiveImageId(v.imgOrder[0]);
+      if (data) {
+        const v = data.data();
+        setVehicle({ ...v, id: data.id });
+        if (v?.imgOrder) setActiveImageId(v.imgOrder[0]);
+      }
+      setLoading(false);
     };
 
-    if (vehicleId) {
+    if (isApiSubscribed && vehicleId) {
       console.log("Getting vehicle: ", vehicleId);
       getVehicle();
     }
+
+    return () => {
+      isApiSubscribed = false;
+    };
   }, [vehicleId]);
 
+  if (loading)
+    return (
+      <div className="flex-grow flex items-center  flex-col justify-center ">
+        <Loading color="black" />
+      </div>
+    );
+
   if (!vehicle)
-    return <div className="container mx-auto flex py-10">Loading...</div>;
+    return (
+      <div className="container mx-auto flex py-10 flex-grow">Loading...</div>
+    );
 
   return (
-    <div className="text-left container mx-auto flex flex-col md:flex-row pb-10">
-      <List name="Photos">
-        <div
-          style={{
-            backgroundImage: `url(${
-              vehicle?.images[activeImageId]?.thumbs?.[1]?.url ||
-              vehicle?.images[activeImageId]?.thumbs?.[0]?.url
-            })`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-          alt=""
-          className="m-0.5 w-full md:w-96 h-96  "
-        ></div>
-        <div className="flex flex-wrap md:w-96 ">
-          {vehicle?.imgOrder &&
-            vehicle.imgOrder.map((imageId) => {
-              if (!vehicle.images[imageId]?.isPublic) return null;
-              return (
-                <div
-                  key={imageId}
-                  onClick={() => setActiveImageId(imageId)}
-                  style={{
-                    backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                  alt=""
-                  className="m-0.5 w-16 h-16 hover:border-2 border-yellow-500 "
-                ></div>
-              );
-            })}
-        </div>
-      </List>
-      <div className="flex flex-col md:flex-row lg:flex-col justify-center">
-        <List name={`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}>
-          <ListItem label="Mileage" value={vehicle?.mileage} />
-          <ListItem label="Series" value={vehicle?.series} />
-          <ListItem label="Trim" value={vehicle?.trim} />
-          <ListItem label="VIN" value={vehicle?.vin} />
-          <ListItem label="Selling Price" value={vehicle?.sellingPrice} />
+    <div key={vehicleId} className="container mx-auto flex-grow">
+      <div className="title text-left flex space-x-2 items-center   px-4 mt-4 uppercase text-xl font-thin border-b">
+        <Link
+          className="flex space-x-2 items-center border border-white rounded px-4 py-2 hover:bg-white transition-all hover:text-black"
+          to="/"
+        >
+          <MdArrowBack />
+        </Link>
+        <h1 className="">{`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}</h1>
+      </div>
+      <div className="text-left  flex flex-col md:flex-row pb-10 ">
+        <List name="Photos">
+          <div
+            style={{
+              backgroundImage: `url(${
+                vehicle?.images[activeImageId]?.thumbs?.[1]?.url ||
+                vehicle?.images[activeImageId]?.thumbs?.[0]?.url
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            alt=""
+            className="m-0.5 w-full md:w-96 h-96  "
+          ></div>
+          <div className="flex flex-wrap md:w-96 ">
+            {vehicle?.imgOrder &&
+              vehicle.imgOrder.map((imageId) => {
+                if (!vehicle.images[imageId]?.isPublic) return null;
+                return (
+                  <div
+                    key={imageId}
+                    onClick={() => setActiveImageId(imageId)}
+                    style={{
+                      backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                    alt=""
+                    className="m-0.5 w-16 h-16 hover:border-2 border-yellow-500 "
+                  ></div>
+                );
+              })}
+          </div>
         </List>
-        <List name="Exterior">
-          <ListItem label="Color" value={vehicle?.exteriorColor} />
-          <ListItem label="Body" value={vehicle?.body} />
-          <ListItem label="Wheels" value={vehicle?.wheels} />
-          <ListItem label="Doors" value={vehicle?.doors} />
-        </List>
-        <List name="Interior">
-          <ListItem label="Type" value={vehicle?.interiorType} />
-          <ListItem label="Color" value={vehicle?.interiorColor} />
-          <ListItem label="Seats" value={vehicle?.seats} />
-        </List>
-        <List name="PowerTrain">
-          <ListItem label="HorsePower" value={vehicle?.engineHP} />
-          <ListItem
-            label="Engine Cylinders"
-            value={vehicle?.endgineCylinders}
-          />
-          <ListItem label="Engine CC" value={vehicle?.engineCC} />
-          <ListItem label="Drive Type" value={vehicle?.driveType} />
-          <ListItem label="Transmission Type" value={vehicle?.transmission} />
-          <ListItem
-            label="Transmission Speeds"
-            value={vehicle?.transmissionSpeeds}
-          />
-          <ListItem label="KW" value={vehicle?.engineKW} />
-          <ListItem label="Fuel Type" value={vehicle?.fuelType} />
-        </List>
-        {vehicle?.description && (
-          <List name="Description">
-            <Description value={vehicle?.description} />
+        <div className="flex flex-col md:flex-row lg:flex-col justify-start">
+          <List name="Details">
+            <ListItem label="Mileage" value={vehicle?.mileage} />
+            <ListItem label="Series" value={vehicle?.series} />
+            <ListItem label="Trim" value={vehicle?.trim} />
+            <ListItem label="VIN" value={vehicle?.vin} />
+            <ListItem label="Selling Price" value={vehicle?.sellingPrice} />
           </List>
-        )}
+          <List name="Exterior">
+            <ListItem label="Color" value={vehicle?.exteriorColor} />
+            <ListItem label="Body" value={vehicle?.body} />
+            <ListItem label="Wheels" value={vehicle?.wheels} />
+            <ListItem label="Doors" value={vehicle?.doors} />
+          </List>
+          <List name="Interior">
+            <ListItem label="Type" value={vehicle?.interiorType} />
+            <ListItem label="Color" value={vehicle?.interiorColor} />
+            <ListItem label="Seats" value={vehicle?.seats} />
+          </List>
+          <List name="PowerTrain">
+            <ListItem label="HorsePower" value={vehicle?.engineHP} />
+            <ListItem
+              label="Engine Cylinders"
+              value={vehicle?.endgineCylinders}
+            />
+            <ListItem label="Engine CC" value={vehicle?.engineCC} />
+            <ListItem label="Drive Type" value={vehicle?.driveType} />
+            <ListItem label="Transmission Type" value={vehicle?.transmission} />
+            <ListItem
+              label="Transmission Speeds"
+              value={vehicle?.transmissionSpeeds}
+            />
+            <ListItem label="KW" value={vehicle?.engineKW} />
+            <ListItem label="Fuel Type" value={vehicle?.fuelType} />
+          </List>
+          {vehicle?.description && (
+            <List name="Description">
+              <Description value={vehicle?.description} />
+            </List>
+          )}
+        </div>
       </div>
     </div>
   );
