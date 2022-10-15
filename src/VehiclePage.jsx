@@ -129,6 +129,12 @@ export const VehiclePage = (props) => {
             <ListItem label="KW" value={vehicle?.engineKW} />
             <ListItem label="Fuel Type" value={vehicle?.fuelType} />
           </List>
+          {vehicle?.showHistory && (
+            <List name="Description">
+              <ListItem label="Owners" value={vehicle?.ownerCount} />
+              <ListItem label="Accidents" value={vehicle?.accidentCount} />
+            </List>
+          )}
           {vehicle?.description && (
             <List name="Description">
               <Description value={vehicle?.description} />
