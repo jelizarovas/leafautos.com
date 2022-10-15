@@ -44,20 +44,23 @@ export const VehiclePage = (props) => {
         ></div>
         <div className="flex flex-wrap md:w-96 ">
           {vehicle?.imgOrder &&
-            vehicle.imgOrder.map((imageId) => (
-              <div
-                key={imageId}
-                onClick={() => setActiveImageId(imageId)}
-                style={{
-                  backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-                alt=""
-                className="m-0.5 w-16 h-16 hover:border-2 border-yellow-500 "
-              ></div>
-            ))}
+            vehicle.imgOrder.map((imageId) => {
+              if (!vehicle.images[imageId]?.isPublic) return null;
+              return (
+                <div
+                  key={imageId}
+                  onClick={() => setActiveImageId(imageId)}
+                  style={{
+                    backgroundImage: `url(${vehicle.images[imageId]?.thumbs?.[0]?.url})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  alt=""
+                  className="m-0.5 w-16 h-16 hover:border-2 border-yellow-500 "
+                ></div>
+              );
+            })}
         </div>
       </List>
       <div className="flex flex-col md:flex-row lg:flex-col justify-center">
