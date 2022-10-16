@@ -3,11 +3,21 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
 import { Link, useParams } from "react-router-dom";
 import { Loading } from "./Loading";
-import { MdArrowBack, MdArrowForward, MdFullscreen } from "react-icons/md";
+import {
+  MdArrowBack,
+  MdArrowForward,
+  MdDownload,
+  MdFullscreen,
+} from "react-icons/md";
 import ImageGallery from "react-image-gallery";
+import Lightbox from "react-18-image-lightbox";
+import "react-18-image-lightbox/style.css";
+
 export const VehiclePage = (props) => {
   const [vehicle, setVehicle] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [lightBox, setLightBox] = React.useState(false);
+  const [imageIndex, setImageIndex] = React.useState(1);
   const refImg = React.useRef(null);
 
   let { vehicleId } = useParams();
@@ -43,7 +53,17 @@ export const VehiclePage = (props) => {
     );
 
   return (
-    <div key={vehicleId} className="container mx-auto flex-grow">
+    <div key={vehicleId} className="container mx-auto flex-grow flex flex-col">
+      {vehicle?.imgOrder && vehicle?.images && (
+        <PreviewImages
+          imgOrder={vehicle?.imgOrder}
+          images={vehicle?.images}
+          imageIndex={imageIndex}
+          setImageIndex={setImageIndex}
+          setLightBox={setLightBox}
+          lightBox={lightBox}
+        />
+      )}
       <div className="title text-left flex space-x-2 items-center   px-4 mt-4 uppercase text-xl font-thin border-b">
         <Link
           className="flex space-x-2 items-center border border-white rounded px-4 py-2 hover:bg-white transition-all hover:text-black"
@@ -53,10 +73,14 @@ export const VehiclePage = (props) => {
         </Link>
         <h1 className="">{`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}</h1>
       </div>
-      <div className="text-left  flex flex-col md:flex-row pb-10 ">
+      <div className="text-left flex-grow h-full flex flex-col md:flex-row pb-10 ">
         <List name="Photos">
           <Photos
             refImg={refImg}
+            onClick={() => {
+              setImageIndex(refImg.current.getCurrentIndex());
+              setLightBox(true);
+            }}
             images={
               vehicle?.imgOrder &&
               vehicle.imgOrder.map((imageId) => ({
@@ -83,24 +107,25 @@ export const VehiclePage = (props) => {
                       backgroundRepeat: "no-repeat",
                     }}
                     alt=""
-                    className={`w-1/6 md:w-1/5 p-1   h-16 border-2  ${
-                      refImg?.current &&
-                      refImg.current.getCurrentIndex() === index
-                        ? "border-lime-500"
-                        : "border-white hover:border-yellow-500"
-                    } `}
+                    className="w-1/6 md:w-1/5 p-1   h-16 border-2  
+                       
+                       border-white hover:border-yellow-500
+                     "
                   ></div>
                 );
               })}
           </div>
         </List>
-        <div className="flex flex-col lg:flex-row justify-start">
+        <div className="flex flex-col justify-start">
           <List name="Details">
             <ListItem label="Mileage" value={vehicle?.mileage} />
             <ListItem label="Series" value={vehicle?.series} />
             <ListItem label="Trim" value={vehicle?.trim} />
             <ListItem label="VIN" value={vehicle?.vin} />
-            <ListItem label="Selling Price" value={vehicle?.sellingPrice} />
+            <ListItem
+              label="Selling Price"
+              value={"$" + vehicle?.sellingPrice}
+            />
           </List>
           <List name="Exterior">
             <ListItem label="Color" value={vehicle?.exteriorColor} />
@@ -142,6 +167,12 @@ export const VehiclePage = (props) => {
           )}
         </div>
       </div>
+      <p className="text-xs font-light text-left py-2 px-4">
+        The price listed for this vehicle does not include charges such as:
+        License, Title, Registration Fees, State or Local Taxes. A dealer
+        documentary service fee of up to $150 may be added to the sale price or
+        capitalized cost.
+      </p>
     </div>
   );
 };
@@ -171,11 +202,12 @@ const List = ({ name, ...props }) => (
   </div>
 );
 
-const Photos = ({ images, refImg }) => {
+const Photos = ({ images, refImg, onClick }) => {
   return (
     <div className="w-full md:w-96">
       <ImageGallery
         ref={refImg}
+        onClick={onClick}
         showPlayButton={false}
         showBullets={false}
         items={images}
@@ -204,5 +236,54 @@ const Photos = ({ images, refImg }) => {
         )}
       />
     </div>
+  );
+};
+
+const PreviewImages = ({
+  lightBox,
+  setLightBox,
+  imageIndex = 0,
+  setImageIndex,
+  images: i,
+  imgOrder,
+}) => {
+  const [images] = React.useState(
+    imgOrder.map((imageId) => [
+      i[imageId]?.thumbs?.[2]?.url ||
+        i[imageId]?.thumbs?.[1]?.url ||
+        i[imageId]?.url,
+      i[imageId]?.thumbs?.[0]?.url,
+    ])
+  );
+
+  if (!lightBox) return null;
+  // console.log(images);
+  return (
+    <Lightbox
+      mainSrc={images[imageIndex][0]}
+      mainSrcThumbnail={images[imageIndex][1]}
+      nextSrc={images[(imageIndex + 1) % images.length][0]}
+      nextSrcThumbnail={images[(imageIndex + 1) % images.length][1]}
+      prevSrc={images[(imageIndex + images.length - 1) % images.length][0]}
+      prevSrcThumbnail={
+        images[(imageIndex + images.length - 1) % images.length][1]
+      }
+      onCloseRequest={() => setLightBox(false)}
+      onMovePrevRequest={() =>
+        setImageIndex((n) => (n + images.length - 1) % images.length)
+      }
+      onMoveNextRequest={() => setImageIndex((n) => (n + 1) % images.length)}
+      toolbarButtons={[
+        <a
+          href={images[imageIndex][0]}
+          download
+          target="_blank"
+          className="text-3xl  px-1 mx-1 h-9 flex opacity-60 hover:opacity-100 transition-all"
+          rel="noreferrer"
+        >
+          <MdDownload />
+        </a>,
+      ]}
+    />
   );
 };

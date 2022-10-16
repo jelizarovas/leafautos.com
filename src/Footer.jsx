@@ -17,8 +17,8 @@ const SocialButton = (props) => (
 
 export const Footer = () => {
   return (
-    <footer className="p-4 bg-main sm:p-6 text-white">
-      <div className="container w-full  mx-auto flex flex-col-reverse  md:flex-row justify-between">
+    <footer className="p-4 bg-main sm:p-6 text-white ">
+      <div className="container w-full  mx-auto flex flex-col-reverse  md:flex-row justify-around">
         <span className="text-sm  sm:text-center py-2 md:whitespace-nowrap  ">
           © 2022{" "}
           <a href="https://leafautos.com/" className="hover:underline">
