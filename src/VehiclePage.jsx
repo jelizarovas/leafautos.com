@@ -155,7 +155,7 @@ export const VehiclePage = (props) => {
             <ListItem label="Fuel Type" value={vehicle?.fuelType} />
           </List>
           {vehicle?.showHistory && (
-            <List name="Description">
+            <List name="History">
               <ListItem label="Owners" value={vehicle?.ownerCount} />
               <ListItem label="Accidents" value={vehicle?.accidentCount} />
             </List>
