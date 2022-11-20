@@ -170,7 +170,7 @@ export const VehiclePage = (props) => {
       <p className="text-xs font-light text-left py-2 px-4">
         The price listed for this vehicle does not include charges such as:
         License, Title, Registration Fees, State or Local Taxes. A dealer
-        documentary service fee of up to $150 may be added to the sale price or
+        documentary service fee of up to $200 may be added to the sale price or
         capitalized cost.
       </p>
     </div>
@@ -190,7 +190,7 @@ const Description = ({ value, ...props }) => {
   if (!value) return null;
   return (
     <li className="text-sm font-sans ">
-      <span className="font-light  whitespace-pre">{value}</span>
+      <span className="font-light  whitespace-pre-line">{value}</span>
     </li>
   );
 };
