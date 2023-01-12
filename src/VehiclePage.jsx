@@ -7,11 +7,15 @@ import {
   MdArrowBack,
   MdArrowForward,
   MdDownload,
+  MdEmail,
   MdFullscreen,
+  MdPhone,
+  MdSms,
 } from "react-icons/md";
 import ImageGallery from "react-image-gallery";
 import Lightbox from "react-18-image-lightbox";
 import "react-18-image-lightbox/style.css";
+import company from "./company.json";
 
 export const VehiclePage = (props) => {
   const [vehicle, setVehicle] = React.useState(null);
@@ -116,7 +120,7 @@ export const VehiclePage = (props) => {
               })}
           </div>
         </List>
-        <div className="flex flex-col justify-start">
+        <div className="flex flex-col flex-grow justify-start">
           <List name="Details">
             <ListItem label="Mileage" value={vehicle?.mileage} />
             <ListItem label="Series" value={vehicle?.series} />
@@ -165,6 +169,26 @@ export const VehiclePage = (props) => {
               <Description value={vehicle?.description} />
             </List>
           )}
+          <div className="flex flex-wrap items-center justify-around mt-10">
+            <ContactLink
+              href={`tel:${company.phoneNumber}`}
+              Icon={MdPhone}
+              label="Call Us"
+              subtext={company.phoneNumber}
+            />
+            <ContactLink
+              href={`mailto:${company.email}`}
+              Icon={MdEmail}
+              label="Email Us"
+              subtext={company.email}
+            />
+            <ContactLink
+              href={`sms:${company.textNumber}`}
+              Icon={MdSms}
+              label="Text Us"
+              subtext={company.textNumber}
+            />
+          </div>
         </div>
       </div>
       <p className="text-xs font-light text-left py-2 px-4">
@@ -176,6 +200,22 @@ export const VehiclePage = (props) => {
     </div>
   );
 };
+
+const ContactLink = ({ Icon, label, subtext, className, ...props }) => (
+  <a
+    {...props}
+    target="_blank"
+    className={
+      "px-4 lg:px-10 py-2 flex flex-col justify-center border rounded-xl transition-all hover:bg-black hover:bg-opacity-5 " +
+      className
+    }
+  >
+    <span className="flex items-center text-xl space-x-2">
+      {Icon && <Icon />} <span>{label}</span>
+    </span>
+    <span className="text-xs opacity-50 text-center">{subtext}</span>
+  </a>
+);
 
 const ListItem = ({ label, Icon, value, ...props }) => {
   if (!value) return null;
